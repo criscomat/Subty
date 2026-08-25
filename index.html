@@ -207,9 +207,10 @@
   </div>
 
   <button
-    id="microfono"
-    aria-label="Activar micrófono">
-  </button>
+  id="microfono"
+  aria-label="Activar micrófono"
+  onclick="alternarMicrofono()">
+</button>
 
 
   <script>
@@ -391,12 +392,7 @@
 
     /* CONECTAR EL BOTÓN */
 
-    document
-      .getElementById("microfono")
-      .addEventListener(
-        "click",
-        alternarMicrofono
-      );
+
 
   </script>
 
