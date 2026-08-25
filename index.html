@@ -18,7 +18,9 @@
       color: #fff;
       font-family: Arial, sans-serif;
 
+      width: 100vw;
       height: 100vh;
+
       overflow: hidden;
 
       display: flex;
@@ -26,46 +28,53 @@
       justify-content: center;
     }
 
-    /* MARCA */
+    /* MARCA SUBTY */
 
     #marca {
       position: absolute;
+
       top: 18px;
       left: 25px;
 
       font-size: 16px;
       letter-spacing: 4px;
 
-      opacity: 0.5;
+      opacity: 0.45;
     }
 
-    /* TEXTO */
+
+    /* TEXTO PRINCIPAL */
 
     #subtitulo {
-  width: 92%;
-  max-width: 1500px;
 
-  height: 2.3em;
+      width: 94%;
+      max-width: 1500px;
 
-  text-align: center;
+      height: 2.25em;
 
-  font-size: clamp(60px, 9vw, 120px);
-  font-weight: 700;
+      text-align: center;
 
-  line-height: 1.05;
+      font-size: clamp(65px, 9vw, 125px);
 
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+      font-weight: 700;
 
-  overflow: hidden;
+      line-height: 1.05;
 
-  text-overflow: ellipsis;
+      display: -webkit-box;
 
-  padding: 0 15px;
+      -webkit-box-orient: vertical;
 
-  overflow-wrap: break-word;
-}
+      -webkit-line-clamp: 2;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      padding: 0 20px;
+
+      overflow-wrap: break-word;
+    }
+
 
     /* BOTÓN 3D */
 
@@ -85,7 +94,7 @@
       background:
         linear-gradient(
           145deg,
-          #242424,
+          #252525,
           #050505
         );
 
@@ -102,13 +111,17 @@
         inset -3px -3px 6px #000;
 
       transition:
+
         transform 0.2s ease,
+
         box-shadow 0.2s ease,
+
         border-color 0.2s ease;
 
     }
 
-    /* EFECTO AL PRESIONAR */
+
+    /* EFECTO AL TOCAR */
 
     #microfono:active {
 
@@ -121,6 +134,7 @@
         inset -2px -2px 5px #333;
 
     }
+
 
     /* MICRÓFONO ACTIVO */
 
@@ -140,6 +154,7 @@
 
     }
 
+
     /* HALO AZUL */
 
     #microfono.activo::after {
@@ -154,17 +169,24 @@
       width: 86px;
       height: 86px;
 
-      transform: translate(-50%, -50%);
+      transform:
+        translate(-50%, -50%);
 
       border-radius: 50%;
 
-      border: 2px solid rgba(22, 140, 255, 0.5);
+      border:
+        2px solid
+        rgba(22, 140, 255, 0.5);
 
-      animation: pulso 1.8s infinite;
+      animation:
+        pulso 1.8s infinite;
 
       pointer-events: none;
 
     }
+
+
+    /* PULSO */
 
     @keyframes pulso {
 
@@ -194,21 +216,31 @@
 
 </head>
 
+
 <body>
+
+
+  <!-- MARCA -->
 
   <div id="marca">
     SUBTY
   </div>
 
+
+  <!-- TEXTO -->
+
   <div id="subtitulo">
     Hola, ¿cómo estás?
   </div>
 
+
+  <!-- BOTÓN -->
+
   <button
-  id="microfono"
-  aria-label="Activar micrófono"
-  onclick="alternarMicrofono()">
-</button>
+    id="microfono"
+    aria-label="Activar micrófono"
+    onclick="alternarMicrofono()">
+  </button>
 
 
   <script>
@@ -217,6 +249,10 @@
 
     let microfonoActivo = false;
 
+
+    /*
+      CREAR RECONOCIMIENTO
+    */
 
     function crearReconocimiento() {
 
@@ -232,102 +268,128 @@
         );
 
         return null;
+
       }
 
 
-      const reconocimiento =
+      const nuevoReconocimiento =
         new Reconocimiento();
 
 
-      reconocimiento.lang = "es-CL";
+      nuevoReconocimiento.lang = "es-CL";
 
-      reconocimiento.continuous = true;
+      nuevoReconocimiento.continuous = true;
 
-      reconocimiento.interimResults = true;
-
-
-      reconocimiento.onresult = function(event) {     
-
-  let texto = "";
-
-  for (
-    let i = event.resultIndex;
-    i < event.results.length;
-    i++
-  ) {
-    texto += event.results[i][0].transcript;
-  }
-
-  texto = texto.trim();
-
-  if (texto !== "") {
-
-    const palabras = texto.split(/\s+/);
-
-    // Máximo de palabras visibles
-    const maxPalabras = 8;
-
-    const palabrasVisibles =
-      palabras.slice(-maxPalabras);
-
-    document
-      .getElementById("subtitulo")
-      .textContent =
-      palabrasVisibles.join(" ");
-  }
-
-};
+      nuevoReconocimiento.interimResults = true;
 
 
-        texto = texto.trim();
+      /*
+        RESULTADO DE VOZ
+      */
+
+      nuevoReconocimiento.onresult =
+        function(event) {
+
+          let texto = "";
 
 
-        if (texto !== "") {
+          for (
+            let i = event.resultIndex;
+            i < event.results.length;
+            i++
+          ) {
 
-          document
-            .getElementById("subtitulo")
-            .textContent = texto;
-
-        }
-
-      };
-
-
-      reconocimiento.onerror = function(event) {
-
-        console.log(
-          "Reconocimiento:",
-          event.error
-        );
-
-      };
-
-
-      reconocimiento.onend = function() {
-
-        if (microfonoActivo) {
-
-          try {
-
-            reconocimiento.start();
-
-          } catch (error) {
-
-            console.log(
-              "Esperando reinicio..."
-            );
+            texto +=
+              event.results[i][0].transcript;
 
           }
 
-        }
 
-      };
+          texto = texto.trim();
 
 
-      return reconocimiento;
+          if (texto !== "") {
+
+            /*
+              Mostramos solamente
+              las palabras más recientes.
+            */
+
+            const palabras =
+              texto.split(/\s+/);
+
+
+            const maxPalabras = 8;
+
+
+            const palabrasVisibles =
+              palabras.slice(
+                -maxPalabras
+              );
+
+
+            document
+              .getElementById("subtitulo")
+              .textContent =
+              palabrasVisibles.join(" ");
+
+          }
+
+        };
+
+
+      /*
+        ERROR
+      */
+
+      nuevoReconocimiento.onerror =
+        function(event) {
+
+          console.log(
+            "Reconocimiento:",
+            event.error
+          );
+
+        };
+
+
+      /*
+        REINICIO AUTOMÁTICO
+      */
+
+      nuevoReconocimiento.onend =
+        function() {
+
+          if (microfonoActivo) {
+
+            try {
+
+              nuevoReconocimiento.start();
+
+            }
+
+            catch (error) {
+
+              console.log(
+                "Esperando reinicio..."
+              );
+
+            }
+
+          }
+
+        };
+
+
+      return nuevoReconocimiento;
 
     }
 
+
+    /*
+      BOTÓN
+      ENCENDER / APAGAR
+    */
 
     function alternarMicrofono() {
 
@@ -337,15 +399,19 @@
         );
 
 
-      /* APAGAR */
+      /*
+        APAGAR
+      */
 
       if (microfonoActivo) {
 
         microfonoActivo = false;
 
+
         boton.classList.remove(
           "activo"
         );
+
 
         boton.setAttribute(
           "aria-label",
@@ -359,12 +425,15 @@
 
         }
 
+
         return;
 
       }
 
 
-      /* ENCENDER */
+      /*
+        ENCENDER
+      */
 
       reconocimiento =
         crearReconocimiento();
@@ -395,7 +464,9 @@
 
         reconocimiento.start();
 
-      } catch (error) {
+      }
+
+      catch (error) {
 
         console.log(error);
 
@@ -403,12 +474,8 @@
 
     }
 
-
-    /* CONECTAR EL BOTÓN */
-
-
-
   </script>
+
 
 </body>
 </html>
