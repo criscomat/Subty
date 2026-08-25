@@ -170,7 +170,8 @@ function alternarMicrofono() {
   if (microfonoActivo) {
     microfonoActivo = false;
 
-    boton.classList.remove("activo");
+    boton.classList.add("activo");
+boton.style.borderColor = "#168cff";
 
     if (reconocimiento) {
       reconocimiento.stop();
