@@ -69,38 +69,53 @@
   <button onclick="escuchar()">🎤 Hablar</button>
 
 <script>
-  function escuchar() {
+function escuchar() {
 
-    const Reconocimiento =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
+  const Reconocimiento =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
-    if (!Reconocimiento) {
-      alert("Tu navegador no permite reconocimiento de voz.");
-      return;
+  if (!Reconocimiento) {
+    alert("Tu navegador no permite reconocimiento de voz.");
+    return;
+  }
+
+  const reconocimiento = new Reconocimiento();
+
+  reconocimiento.lang = "es-CL";
+  reconocimiento.continuous = true;
+  reconocimiento.interimResults = true;
+
+  reconocimiento.onresult = function(event) {
+
+    let texto = "";
+
+    // Tomamos solamente el bloque actual
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      texto += event.results[i][0].transcript;
     }
 
-    const reconocimiento = new Reconocimiento();
+    texto = texto.trim();
 
-    reconocimiento.lang = "es-CL";
-    reconocimiento.continuous = true;
-    reconocimiento.interimResults = false;
+    if (texto !== "") {
+      document.getElementById("subtitulo").textContent = texto;
+    }
+  };
 
-    reconocimiento.onresult = function(event) {
+  reconocimiento.onerror = function(event) {
+    console.log("Error:", event.error);
+  };
 
-      const ultimaFrase =
-        event.results[event.results.length - 1][0].transcript;
+  reconocimiento.onend = function() {
+    try {
+      reconocimiento.start();
+    } catch (e) {
+      console.log("Reconocimiento reiniciado");
+    }
+  };
 
-      document.getElementById("subtitulo").textContent =
-        ultimaFrase.trim();
-    };
-
-    reconocimiento.onerror = function(event) {
-      console.log("Error:", event.error);
-    };
-
-    reconocimiento.start();
-  }
+  reconocimiento.start();
+}
 </script>
 
 </body>
