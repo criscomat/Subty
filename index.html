@@ -131,11 +131,13 @@
   </div>
 
   <button id="microfono" onclick="alternarMicrofono()">
-  🎤
 </button>
 
 <script>
-function escuchar() {
+let reconocimiento;
+let microfonoActivo = false;
+
+function alternarMicrofono() {
 
   const Reconocimiento =
     window.SpeechRecognition ||
@@ -145,6 +147,70 @@ function escuchar() {
     alert("Tu navegador no permite reconocimiento de voz.");
     return;
   }
+
+  const boton = document.getElementById("microfono");
+
+  // APAGAR
+  if (microfonoActivo) {
+    microfonoActivo = false;
+
+    boton.classList.remove("activo");
+
+    if (reconocimiento) {
+      reconocimiento.stop();
+    }
+
+    return;
+  }
+
+  // ENCENDER
+  microfonoActivo = true;
+
+  boton.classList.add("activo");
+
+  reconocimiento = new Reconocimiento();
+
+  reconocimiento.lang = "es-CL";
+  reconocimiento.continuous = true;
+  reconocimiento.interimResults = true;
+
+  reconocimiento.onresult = function(event) {
+
+    let textoActual = "";
+
+    for (
+      let i = event.resultIndex;
+      i < event.results.length;
+      i++
+    ) {
+      textoActual += event.results[i][0].transcript;
+    }
+
+    textoActual = textoActual.trim();
+
+    if (textoActual !== "") {
+      document.getElementById("subtitulo").textContent =
+        textoActual;
+    }
+  };
+
+  reconocimiento.onerror = function(event) {
+    console.log("Error:", event.error);
+  };
+
+  reconocimiento.onend = function() {
+
+    if (microfonoActivo) {
+      try {
+        reconocimiento.start();
+      } catch (e) {
+        console.log("Reconocimiento reiniciado");
+      }
+    }
+  };
+
+  reconocimiento.start();
+}
 
   const reconocimiento = new Reconocimiento();
 
