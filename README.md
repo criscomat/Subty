@@ -1,5 +1,3 @@
-# Subty
-subtitulo en vivo
 <!DOCTYPE html>
 <html lang="es">
 <head>
