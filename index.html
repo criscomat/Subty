@@ -68,46 +68,40 @@
 
   <button onclick="escuchar()">🎤 Hablar</button>
 
-  <script>
-    function escuchar() {
+<script>
+  function escuchar() {
 
-      const Reconocimiento =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
+    const Reconocimiento =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
 
-      if (!Reconocimiento) {
-        alert("Tu navegador no permite reconocimiento de voz.");
-        return;
-      }
-
-      const reconocimiento = new Reconocimiento();
-
-      reconocimiento.lang = "es-CL";
-      reconocimiento.continuous = true;
-      reconocimiento.interimResults = true;
-
-      reconocimiento.onresult = function(event) {
-
-        let texto = "";
-
-        for (
-          let i = event.resultIndex;
-          i < event.results.length;
-          i++
-        ) {
-          texto += event.results[i][0].transcript;
-        }
-
-        document.getElementById("subtitulo").textContent = texto;
-      };
-
-      reconocimiento.onerror = function() {
-        alert("No pude detectar la voz.");
-      };
-
-      reconocimiento.start();
+    if (!Reconocimiento) {
+      alert("Tu navegador no permite reconocimiento de voz.");
+      return;
     }
-  </script>
+
+    const reconocimiento = new Reconocimiento();
+
+    reconocimiento.lang = "es-CL";
+    reconocimiento.continuous = true;
+    reconocimiento.interimResults = false;
+
+    reconocimiento.onresult = function(event) {
+
+      const ultimaFrase =
+        event.results[event.results.length - 1][0].transcript;
+
+      document.getElementById("subtitulo").textContent =
+        ultimaFrase.trim();
+    };
+
+    reconocimiento.onerror = function(event) {
+      console.log("Error:", event.error);
+    };
+
+    reconocimiento.start();
+  }
+</script>
 
 </body>
 </html>
