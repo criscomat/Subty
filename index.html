@@ -246,21 +246,37 @@
       reconocimiento.interimResults = true;
 
 
-      reconocimiento.onresult = function(event) {
+      reconocimiento.onresult = function(event) {     
 
-        let texto = "";
+  let texto = "";
 
+  for (
+    let i = event.resultIndex;
+    i < event.results.length;
+    i++
+  ) {
+    texto += event.results[i][0].transcript;
+  }
 
-        for (
-          let i = event.resultIndex;
-          i < event.results.length;
-          i++
-        ) {
+  texto = texto.trim();
 
-          texto +=
-            event.results[i][0].transcript;
+  if (texto !== "") {
 
-        }
+    const palabras = texto.split(/\s+/);
+
+    // Máximo de palabras visibles
+    const maxPalabras = 8;
+
+    const palabrasVisibles =
+      palabras.slice(-maxPalabras);
+
+    document
+      .getElementById("subtitulo")
+      .textContent =
+      palabrasVisibles.join(" ");
+  }
+
+};
 
 
         texto = texto.trim();
