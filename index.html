@@ -185,7 +185,8 @@
   <script>
 
     let reconocimiento = null;
-    let microfonoActivo = false;
+let microfonoActivo = false;
+let temporizadorLimpieza = null;
 
 
     function crearReconocimiento() {
@@ -230,7 +231,10 @@
 
           texto = texto.trim();
 
-          if (texto !== "") {
+         if (texto !== "") { 
+           if (temporizadorLimpieza) {
+  clearTimeout(temporizadorLimpieza);
+}
 
             const palabras =
               texto.split(/\s+/);
@@ -244,6 +248,17 @@
               .getElementById("subtitulo")
               .textContent =
               palabrasVisibles.join(" ");
+           temporizadorLimpieza = setTimeout(() => {
+
+  if (microfonoActivo) {
+
+    document
+      .getElementById("subtitulo")
+      .textContent = "";
+
+  }
+
+}, 3000);
           }
         };
 
