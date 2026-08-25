@@ -391,39 +391,37 @@
       ENCENDER / APAGAR
     */
 
-    function alternarMicrofono() {
+   function alternarMicrofono() {
 
-      const boton =
-        document.getElementById(
-          "microfono"
-        );
+  const boton =
+    document.getElementById("microfono");
 
+  if (microfonoActivo) {
 
-      /*
-        APAGAR
-      */
+    microfonoActivo = false;
 
-      if (microfonoActivo) {
+    boton.classList.remove("activo");
 
-        microfonoActivo = false;
+    if (reconocimiento) {
+      reconocimiento.stop();
+    }
 
+    return;
+  }
 
-        boton.classList.remove(
-          "activo"
-        );
+  reconocimiento =
+    crearReconocimiento();
 
+  if (!reconocimiento) {
+    return;
+  }
 
-        boton.setAttribute(
-          "aria-label",
-          "Activar micrófono"
-        );
+  microfonoActivo = true;
 
+  boton.classList.add("activo");
 
-        if (reconocimiento) {
-
-          reconocimiento.stop();
-
-        }
+  reconocimiento.start();
+}
 
 
         return;
