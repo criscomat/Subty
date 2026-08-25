@@ -41,18 +41,80 @@
       min-height: 100px;
     }
 
-    button {
-      position: absolute;
-      bottom: 35px;
-      background: #ffd400;
-      color: #000;
-      border: none;
-      padding: 15px 30px;
-      border-radius: 30px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+    #microfono {
+  position: absolute;
+  bottom: 35px;
+
+  width: 72px;
+  height: 72px;
+
+  border-radius: 50%;
+  border: 1px solid #333;
+
+  background: linear-gradient(145deg, #222, #050505);
+
+  color: white;
+  font-size: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow:
+    8px 8px 18px #000,
+    -4px -4px 10px #333,
+    inset 2px 2px 5px #444,
+    inset -3px -3px 6px #000;
+
+  transition: all 0.2s ease;
+}
+
+#microfono:active {
+  transform: scale(0.92);
+
+  box-shadow:
+    inset 5px 5px 10px #000,
+    inset -2px -2px 5px #333;
+}
+
+#microfono.activo {
+  border-color: #168cff;
+
+  box-shadow:
+    0 0 8px #168cff,
+    0 0 20px rgba(22, 140, 255, 0.6),
+    8px 8px 18px #000,
+    inset 2px 2px 5px #444;
+}
+
+#microfono.activo::after {
+  content: "";
+
+  position: absolute;
+
+  width: 86px;
+  height: 86px;
+
+  border-radius: 50%;
+
+  border: 2px solid rgba(22, 140, 255, 0.5);
+
+  animation: pulso 1.8s infinite;
+}
+
+@keyframes pulso {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
 
     button:hover {
       transform: scale(1.05);
@@ -68,7 +130,9 @@
     Hola, ¿cómo estás?
   </div>
 
-  <button onclick="escuchar()">🎤 Hablar</button>
+  <button id="microfono" onclick="alternarMicrofono()">
+  🎤
+</button>
 
 <script>
 function escuchar() {
