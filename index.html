@@ -42,32 +42,30 @@
     /* TEXTO */
 
     #subtitulo {
+  width: 92%;
+  max-width: 1500px;
 
-      width: 94%;
-      max-width: 1500px;
+  height: 2.3em;
 
-      text-align: center;
+  text-align: center;
 
-      font-size: clamp(55px, 8vw, 115px);
+  font-size: clamp(60px, 9vw, 120px);
+  font-weight: 700;
 
-      font-weight: 700;
+  line-height: 1.05;
 
-      line-height: 1.08;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 
-      min-height: 2.2em;
+  overflow: hidden;
 
-      display: flex;
+  text-overflow: ellipsis;
 
-      align-items: center;
-      justify-content: center;
+  padding: 0 15px;
 
-      padding: 0 20px;
-
-      overflow: hidden;
-
-      word-break: normal;
-      overflow-wrap: break-word;
-    }
+  overflow-wrap: break-word;
+}
 
     /* BOTÓN 3D */
 
