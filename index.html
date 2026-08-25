@@ -3,269 +3,402 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Subty</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
-  body {
-  margin: 0;
-  background: #000;
-  color: #ffffff;
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
       font-family: Arial, sans-serif;
+
       height: 100vh;
+      overflow: hidden;
+
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
     }
+
+    /* MARCA */
 
     #marca {
-  position: absolute;
-  top: 18px;
-  left: 25px;
-  font-size: 16px;
-  letter-spacing: 4px;
-  opacity: 0.5;
-}
+      position: absolute;
+      top: 18px;
+      left: 25px;
 
-   #subtitulo {
-  width: 94%;
-  max-width: 1500px;
+      font-size: 16px;
+      letter-spacing: 4px;
 
-  text-align: center;
+      opacity: 0.5;
+    }
 
-  font-size: clamp(55px, 8vw, 115px);
-  font-weight: 700;
+    /* TEXTO */
 
-  line-height: 1.08;
+    #subtitulo {
 
-  height: 2.25em;
+      width: 94%;
+      max-width: 1500px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      text-align: center;
 
-  overflow: hidden;
+      font-size: clamp(55px, 8vw, 115px);
 
-  padding: 0 20px;
+      font-weight: 700;
 
-  word-break: normal;
-  overflow-wrap: break-word;
-}
+      line-height: 1.08;
+
+      min-height: 2.2em;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 20px;
+
+      overflow: hidden;
+
+      word-break: normal;
+      overflow-wrap: break-word;
+    }
+
+    /* BOTÓN 3D */
 
     #microfono {
-  position: absolute;
-  bottom: 35px;
 
-  width: 72px;
-  height: 72px;
+      position: absolute;
 
-  border-radius: 50%;
-  border: 1px solid #333;
+      bottom: 35px;
 
-  background: linear-gradient(145deg, #222, #050505);
+      width: 72px;
+      height: 72px;
 
-  color: white;
-  font-size: 30px;
+      border-radius: 50%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      border: 1px solid #333;
 
-  cursor: pointer;
+      background:
+        linear-gradient(
+          145deg,
+          #242424,
+          #050505
+        );
 
-  box-shadow:
-    8px 8px 18px #000,
-    -4px -4px 10px #333,
-    inset 2px 2px 5px #444,
-    inset -3px -3px 6px #000;
+      cursor: pointer;
 
-  transition: all 0.2s ease;
-}
+      box-shadow:
 
-#microfono:active {
-  transform: scale(0.92);
+        8px 8px 18px #000,
 
-  box-shadow:
-    inset 5px 5px 10px #000,
-    inset -2px -2px 5px #333;
-}
+        -4px -4px 10px #333,
 
-#microfono.activo {
-  border-color: #168cff;
+        inset 2px 2px 5px #444,
 
-  box-shadow:
-    0 0 8px #168cff,
-    0 0 20px rgba(22, 140, 255, 0.6),
-    8px 8px 18px #000,
-    inset 2px 2px 5px #444;
-}
+        inset -3px -3px 6px #000;
 
-#microfono.activo::after {
-  content: "";
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 
-  position: absolute;
-
-  width: 86px;
-  height: 86px;
-
-  border-radius: 50%;
-
-  border: 2px solid rgba(22, 140, 255, 0.5);
-
-  animation: pulso 1.8s infinite;
-}
-
-@keyframes pulso {
-  0% {
-    transform: scale(0.85);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: scale(1.25);
-    opacity: 0;
-  }
-}
-
-    button:hover {
-      transform: scale(1.05);
     }
+
+    /* EFECTO AL PRESIONAR */
+
+    #microfono:active {
+
+      transform: scale(0.92);
+
+      box-shadow:
+
+        inset 5px 5px 10px #000,
+
+        inset -2px -2px 5px #333;
+
+    }
+
+    /* MICRÓFONO ACTIVO */
+
+    #microfono.activo {
+
+      border-color: #168cff;
+
+      box-shadow:
+
+        0 0 8px #168cff,
+
+        0 0 20px rgba(22, 140, 255, 0.65),
+
+        8px 8px 18px #000,
+
+        inset 2px 2px 5px #444;
+
+    }
+
+    /* HALO AZUL */
+
+    #microfono.activo::after {
+
+      content: "";
+
+      position: absolute;
+
+      top: 50%;
+      left: 50%;
+
+      width: 86px;
+      height: 86px;
+
+      transform: translate(-50%, -50%);
+
+      border-radius: 50%;
+
+      border: 2px solid rgba(22, 140, 255, 0.5);
+
+      animation: pulso 1.8s infinite;
+
+      pointer-events: none;
+
+    }
+
+    @keyframes pulso {
+
+      0% {
+
+        transform:
+          translate(-50%, -50%)
+          scale(0.85);
+
+        opacity: 0.8;
+
+      }
+
+      100% {
+
+        transform:
+          translate(-50%, -50%)
+          scale(1.25);
+
+        opacity: 0;
+
+      }
+
+    }
+
   </style>
+
 </head>
 
 <body>
 
-  <div id="marca">SUBTY</div>
+  <div id="marca">
+    SUBTY
+  </div>
 
   <div id="subtitulo">
     Hola, ¿cómo estás?
   </div>
 
-  <button id="microfono" onclick="alternarMicrofono()">
-</button>
+  <button
+    id="microfono"
+    aria-label="Activar micrófono">
+  </button>
 
-<script>
-let reconocimiento;
-let microfonoActivo = false;
 
-function alternarMicrofono() {
+  <script>
 
-  const Reconocimiento =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+    let reconocimiento = null;
 
-  if (!Reconocimiento) {
-    alert("Tu navegador no permite reconocimiento de voz.");
-    return;
-  }
+    let microfonoActivo = false;
 
-  const boton = document.getElementById("microfono");
 
-  // APAGAR
-  if (microfonoActivo) {
-    microfonoActivo = false;
+    function crearReconocimiento() {
 
-    boton.classList.add("activo");
-boton.style.borderColor = "#168cff";
+      const Reconocimiento =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
 
-    if (reconocimiento) {
-      reconocimiento.stop();
-    }
 
-    return;
-  }
+      if (!Reconocimiento) {
 
-  // ENCENDER
-  microfonoActivo = true;
+        alert(
+          "Tu navegador no permite reconocimiento de voz."
+        );
 
-  boton.classList.add("activo");
-
-  reconocimiento = new Reconocimiento();
-
-  reconocimiento.lang = "es-CL";
-  reconocimiento.continuous = true;
-  reconocimiento.interimResults = true;
-
-  reconocimiento.onresult = function(event) {
-
-    let textoActual = "";
-
-    for (
-      let i = event.resultIndex;
-      i < event.results.length;
-      i++
-    ) {
-      textoActual += event.results[i][0].transcript;
-    }
-
-    textoActual = textoActual.trim();
-
-    if (textoActual !== "") {
-      document.getElementById("subtitulo").textContent =
-        textoActual;
-    }
-  };
-
-  reconocimiento.onerror = function(event) {
-    console.log("Error:", event.error);
-  };
-
-  reconocimiento.onend = function() {
-
-    if (microfonoActivo) {
-      try {
-        reconocimiento.start();
-      } catch (e) {
-        console.log("Reconocimiento reiniciado");
+        return null;
       }
+
+
+      const reconocimiento =
+        new Reconocimiento();
+
+
+      reconocimiento.lang = "es-CL";
+
+      reconocimiento.continuous = true;
+
+      reconocimiento.interimResults = true;
+
+
+      reconocimiento.onresult = function(event) {
+
+        let texto = "";
+
+
+        for (
+          let i = event.resultIndex;
+          i < event.results.length;
+          i++
+        ) {
+
+          texto +=
+            event.results[i][0].transcript;
+
+        }
+
+
+        texto = texto.trim();
+
+
+        if (texto !== "") {
+
+          document
+            .getElementById("subtitulo")
+            .textContent = texto;
+
+        }
+
+      };
+
+
+      reconocimiento.onerror = function(event) {
+
+        console.log(
+          "Reconocimiento:",
+          event.error
+        );
+
+      };
+
+
+      reconocimiento.onend = function() {
+
+        if (microfonoActivo) {
+
+          try {
+
+            reconocimiento.start();
+
+          } catch (error) {
+
+            console.log(
+              "Esperando reinicio..."
+            );
+
+          }
+
+        }
+
+      };
+
+
+      return reconocimiento;
+
     }
-  };
 
-  reconocimiento.start();
-}
 
-  const reconocimiento = new Reconocimiento();
+    function alternarMicrofono() {
 
-  reconocimiento.lang = "es-CL";
-  reconocimiento.continuous = true;
-  reconocimiento.interimResults = true;
+      const boton =
+        document.getElementById(
+          "microfono"
+        );
 
-  reconocimiento.onresult = function(event) {
 
-    let texto = "";
+      /* APAGAR */
 
-    // Tomamos solamente el bloque actual
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      texto += event.results[i][0].transcript;
+      if (microfonoActivo) {
+
+        microfonoActivo = false;
+
+        boton.classList.remove(
+          "activo"
+        );
+
+        boton.setAttribute(
+          "aria-label",
+          "Activar micrófono"
+        );
+
+
+        if (reconocimiento) {
+
+          reconocimiento.stop();
+
+        }
+
+        return;
+
+      }
+
+
+      /* ENCENDER */
+
+      reconocimiento =
+        crearReconocimiento();
+
+
+      if (!reconocimiento) {
+
+        return;
+
+      }
+
+
+      microfonoActivo = true;
+
+
+      boton.classList.add(
+        "activo"
+      );
+
+
+      boton.setAttribute(
+        "aria-label",
+        "Desactivar micrófono"
+      );
+
+
+      try {
+
+        reconocimiento.start();
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
     }
 
-    texto = texto.trim();
 
-    if (texto !== "") {
-      document.getElementById("subtitulo").textContent = texto;
-    }
-  };
+    /* CONECTAR EL BOTÓN */
 
-  reconocimiento.onerror = function(event) {
-    console.log("Error:", event.error);
-  };
+    document
+      .getElementById("microfono")
+      .addEventListener(
+        "click",
+        alternarMicrofono
+      );
 
-  reconocimiento.onend = function() {
-    try {
-      reconocimiento.start();
-    } catch (e) {
-      console.log("Reconocimiento reiniciado");
-    }
-  };
-
-  reconocimiento.start();
-}
-</script>
+  </script>
 
 </body>
 </html>
