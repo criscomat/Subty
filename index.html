@@ -28,25 +28,17 @@
       justify-content: center;
     }
 
-    /* MARCA SUBTY */
-
     #marca {
       position: absolute;
-
       top: 18px;
       left: 25px;
 
       font-size: 16px;
       letter-spacing: 4px;
-
       opacity: 0.45;
     }
 
-
-    /* TEXTO PRINCIPAL */
-
     #subtitulo {
-
       width: 94%;
       max-width: 1500px;
 
@@ -55,40 +47,30 @@
       text-align: center;
 
       font-size: clamp(65px, 9vw, 125px);
-
       font-weight: 700;
-
       line-height: 1.05;
 
       display: -webkit-box;
-
       -webkit-box-orient: vertical;
-
       -webkit-line-clamp: 2;
 
       overflow: hidden;
-
-      text-overflow: ellipsis;
 
       padding: 0 20px;
 
       overflow-wrap: break-word;
     }
 
-
     /* BOTÓN 3D */
 
     #microfono {
-
       position: absolute;
-
       bottom: 35px;
 
       width: 72px;
       height: 72px;
 
       border-radius: 50%;
-
       border: 1px solid #333;
 
       background:
@@ -101,64 +83,38 @@
       cursor: pointer;
 
       box-shadow:
-
         8px 8px 18px #000,
-
         -4px -4px 10px #333,
-
         inset 2px 2px 5px #444,
-
         inset -3px -3px 6px #000;
 
       transition:
-
         transform 0.2s ease,
-
         box-shadow 0.2s ease,
-
         border-color 0.2s ease;
-
     }
 
-
-    /* EFECTO AL TOCAR */
-
     #microfono:active {
-
       transform: scale(0.92);
 
       box-shadow:
-
         inset 5px 5px 10px #000,
-
         inset -2px -2px 5px #333;
-
     }
 
-
-    /* MICRÓFONO ACTIVO */
+    /* AZUL CUANDO ESTÁ ACTIVO */
 
     #microfono.activo {
-
       border-color: #168cff;
 
       box-shadow:
-
         0 0 8px #168cff,
-
         0 0 20px rgba(22, 140, 255, 0.65),
-
         8px 8px 18px #000,
-
         inset 2px 2px 5px #444;
-
     }
 
-
-    /* HALO AZUL */
-
     #microfono.activo::after {
-
       content: "";
 
       position: absolute;
@@ -178,88 +134,62 @@
         2px solid
         rgba(22, 140, 255, 0.5);
 
-      animation:
-        pulso 1.8s infinite;
+      animation: pulso 1.8s infinite;
 
       pointer-events: none;
-
     }
-
-
-    /* PULSO */
 
     @keyframes pulso {
 
       0% {
-
         transform:
           translate(-50%, -50%)
           scale(0.85);
 
         opacity: 0.8;
-
       }
 
       100% {
-
         transform:
           translate(-50%, -50%)
           scale(1.25);
 
         opacity: 0;
-
       }
-
     }
 
   </style>
 
 </head>
 
-
 <body>
-
-
-  <!-- MARCA -->
 
   <div id="marca">
     SUBTY
   </div>
 
-
-  <!-- TEXTO -->
-
   <div id="subtitulo">
     Hola, ¿cómo estás?
   </div>
 
-
-  <!-- BOTÓN -->
-
- <button
-  id="microfono"
-  aria-label="Activar micrófono"
-  onclick="alternarMicrofono()">
-</button>
+  <button
+    id="microfono"
+    aria-label="Activar micrófono"
+    onclick="alternarMicrofono()">
+  </button>
 
 
   <script>
 
     let reconocimiento = null;
-
     let microfonoActivo = false;
 
-
-    /*
-      CREAR RECONOCIMIENTO
-    */
 
     function crearReconocimiento() {
 
       const Reconocimiento =
         window.SpeechRecognition ||
         window.webkitSpeechRecognition;
-
 
       if (!Reconocimiento) {
 
@@ -268,13 +198,10 @@
         );
 
         return null;
-
       }
-
 
       const nuevoReconocimiento =
         new Reconocimiento();
-
 
       nuevoReconocimiento.lang = "es-CL";
 
@@ -283,15 +210,10 @@
       nuevoReconocimiento.interimResults = true;
 
 
-      /*
-        RESULTADO DE VOZ
-      */
-
       nuevoReconocimiento.onresult =
         function(event) {
 
           let texto = "";
-
 
           for (
             let i = event.resultIndex;
@@ -301,46 +223,27 @@
 
             texto +=
               event.results[i][0].transcript;
-
           }
-
 
           texto = texto.trim();
 
-
           if (texto !== "") {
-
-            /*
-              Mostramos solamente
-              las palabras más recientes.
-            */
 
             const palabras =
               texto.split(/\s+/);
 
-
             const maxPalabras = 8;
 
-
             const palabrasVisibles =
-              palabras.slice(
-                -maxPalabras
-              );
-
+              palabras.slice(-maxPalabras);
 
             document
               .getElementById("subtitulo")
               .textContent =
               palabrasVisibles.join(" ");
-
           }
-
         };
 
-
-      /*
-        ERROR
-      */
 
       nuevoReconocimiento.onerror =
         function(event) {
@@ -349,13 +252,8 @@
             "Reconocimiento:",
             event.error
           );
-
         };
 
-
-      /*
-        REINICIO AUTOMÁTICO
-      */
 
       nuevoReconocimiento.onend =
         function() {
@@ -363,100 +261,72 @@
           if (microfonoActivo) {
 
             try {
-
               nuevoReconocimiento.start();
-
             }
 
             catch (error) {
-
               console.log(
                 "Esperando reinicio..."
               );
-
             }
-
           }
-
         };
 
 
       return nuevoReconocimiento;
-
     }
 
 
-    /*
-      BOTÓN
-      ENCENDER / APAGAR
-    */
+    function alternarMicrofono() {
 
-   function alternarMicrofono() {
+      const boton =
+        document.getElementById(
+          "microfono"
+        );
 
-  const boton =
-    document.getElementById("microfono");
 
-  if (microfonoActivo) {
+      /* APAGAR */
 
-    microfonoActivo = false;
+      if (microfonoActivo) {
 
-    boton.classList.remove("activo");
+        microfonoActivo = false;
 
-    if (reconocimiento) {
-      reconocimiento.stop();
-    }
+        boton.classList.remove(
+          "activo"
+        );
 
-    return;
-  }
+        boton.setAttribute(
+          "aria-label",
+          "Activar micrófono"
+        );
 
-  reconocimiento =
-    crearReconocimiento();
-
-  if (!reconocimiento) {
-    return;
-  }
-
-  microfonoActivo = true;
-
-  boton.classList.add("activo");
-
-  reconocimiento.start();
-}
-
+        if (reconocimiento) {
+          reconocimiento.stop();
+        }
 
         return;
-
       }
 
 
-      /*
-        ENCENDER
-      */
+      /* ENCENDER */
 
       reconocimiento =
         crearReconocimiento();
 
-
       if (!reconocimiento) {
-
         return;
-
       }
 
-
       microfonoActivo = true;
-
 
       boton.classList.add(
         "activo"
       );
 
-
       boton.setAttribute(
         "aria-label",
         "Desactivar micrófono"
       );
-
 
       try {
 
@@ -469,11 +339,9 @@
         console.log(error);
 
       }
-
     }
 
   </script>
-
 
 </body>
 </html>
