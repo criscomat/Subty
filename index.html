@@ -322,7 +322,24 @@ let temporizadorLimpieza = null;
       return nuevoReconocimiento;
     }
 
+function girarHorizontal() {
 
+  if (screen.orientation &&
+      screen.orientation.lock) {
+
+    screen.orientation.lock("landscape")
+      .catch(function(error) {
+
+        console.log(
+          "El navegador no permite bloquear la orientación:",
+          error
+        );
+
+      });
+
+  }
+
+}
     function alternarMicrofono() {
 
       const boton =
